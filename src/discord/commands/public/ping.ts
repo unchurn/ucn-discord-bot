@@ -13,7 +13,7 @@ createCommand({
       new ButtonBuilder({
         customId: `/application/ws/ping`,
         style: ButtonStyle.Secondary,
-        label: `Ping WS: ${ws.toFixed()}ms`,
+        label: `Ping WS: ${ws}ms`,
         emoji: "🏓",
         disabled: true,
       }),
