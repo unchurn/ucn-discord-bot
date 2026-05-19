@@ -1,26 +1,28 @@
 import { createCommand } from "#base";
-import { createDate, createRow } from "@magicyan/discord";
+import { createRow } from "@magicyan/discord";
 import { ApplicationCommandType, ButtonBuilder, ButtonStyle } from "discord.js";
 
 createCommand({
-	name: "ping",
-	description: "Replies with pong 🏓",
-	type: ApplicationCommandType.ChatInput,
-	async run(interaction){
-		const now = createDate();
-		const row = createRow(
-			// ../../responders/buttons/remind.ts
-			new ButtonBuilder({ 
-				customId: `/remind/${now.toISOString()}`,
-				style: ButtonStyle.Success,
-				label: "Ping",
-				emoji: "👋"
-			})
-		);
-		await interaction.reply({
-			flags: ["Ephemeral"], 
-			content: `Pong 🏓`,
-			components: [row],
-		});
-	}
+  name: "ping",
+  description: "Replies with the bot latency.",
+  type: ApplicationCommandType.ChatInput,
+  async run(interaction) {
+    const ws = interaction.client.ws.ping;
+
+    const row = createRow(
+      new ButtonBuilder({
+        customId: `/application/ws/ping`,
+        style: ButtonStyle.Secondary,
+        label: `Ping WS: ${ws.toFixed()}ms`,
+        emoji: "🏓",
+        disabled: true,
+      }),
+    );
+
+    await interaction.reply({
+      flags: ["Ephemeral"],
+      content: `## Pong!`,
+      components: [row],
+    });
+  },
 });
