@@ -76,6 +76,24 @@ export async function findTicketByThreadId(threadId: Snowflake) {
   return result[0] ?? null;
 }
 
+export async function findTicketById(ticketId: number) {
+  const result = await db
+    .select()
+    .from(ticket)
+    .where(eq(ticket.id, ticketId))
+    .limit(1);
+
+  return result[0] ?? null;
+}
+
+export async function listTicketsByGuildId(guildId: Snowflake) {
+  return db
+    .select()
+    .from(ticket)
+    .where(eq(ticket.guildId, guildId))
+    .orderBy(desc(ticket.createdAt));
+}
+
 export async function listTicketsByOwnerId(ownerId: Snowflake) {
   return db
     .select()
