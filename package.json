@@ -13,7 +13,7 @@
     "start": "bun --env-file=.env .",
     "start:dev": "bun --env-file=.env.dev .",
     "db:generate": "bunx drizzle-kit generate",
-    "db:migrate": "bunx drizzle-kit migrate",
+    "db:migrate": "bun --env-file=.env ./src/database/index.ts",
     "db:push": "bunx drizzle-kit push",
     "db:studio": "bunx drizzle-kit studio",
     "db:check": "bunx drizzle-kit check",
@@ -38,6 +38,9 @@
     "#env": [
       "./build/env.js"
     ],
+    "#config": [
+      "./build/config.js"
+    ],
     "#base": [
       "./build/discord/index.js"
     ],
@@ -46,6 +49,9 @@
     ],
     "#database": [
       "./build/database/index.js"
+    ],
+    "#schemas": [
+      "./build/database/schema/index.js"
     ],
     "#queries": [
       "./build/database/queries/index.js"

@@ -9,9 +9,11 @@
     // Path mapping Options
     "paths": {
       "#env": ["./src/env.ts"],
+      "#config": ["./src/config.ts"],
       "#base": ["./src/discord/index.ts"],
       "#functions": ["./src/functions/index.ts"],
       "#database": ["./src/database/index.ts"],
+      "#schemas": ["./src/database/schema/index.ts"],
       "#queries": ["./src/database/queries/index.ts"],
       "#server": ["./src/server/index.ts"],
       "#menus": ["./src/menus/index.ts"],
