@@ -17,6 +17,8 @@
 *.zip
 *.sqlite
 *.sql
+!drizzle/*.sql
 *.exe
 *.db
+*.sqlit
 *.development.json
