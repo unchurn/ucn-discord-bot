@@ -7,7 +7,7 @@ export const ticketCommand = createCommand({
   name: "ticket",
   description: "Manage the server ticket system.",
   dmPermission: false,
-  defaultMemberPermissions: ["ManageThreads"],
+  defaultMemberPermissions: ["ManageThreads", "Administrator"],
   async run(interaction) {
     const guildId = interaction.guildId as Snowflake;
     await interaction.deferReply({ flags: ["Ephemeral"] });
