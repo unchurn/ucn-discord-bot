@@ -37,6 +37,12 @@ ticketCommand.subcommand({
       /\\n/g,
       "\n",
     );
+    const descriptionLines = description
+      .split("\n")
+      .map((line) => line.trim())
+      .filter((line) => line.length > 0);
+    const introLine = descriptionLines[0] ?? "";
+    const instructionLine = descriptionLines[1] ?? "";
 
     if (!channel.isTextBased()) {
       await interaction.editReply(
@@ -46,31 +52,33 @@ ticketCommand.subcommand({
     }
 
     const scheduleLines = [
-      `-# Support hours (${config.ticketSystem.supportHours.timeZoneLabel}): ${config.ticketSystem.supportHours.daysLabel}, ${config.ticketSystem.supportHours.windows.join(" and ")}.`,
-      `-# ${config.ticketSystem.supportHours.note}`,
+      `> **Support hours (${config.ticketSystem.supportHours.timeZoneLabel})**`,
+      `> ${config.ticketSystem.supportHours.daysLabel} | ${config.ticketSystem.supportHours.windows.join(" and ")}`,
+      `> ${config.ticketSystem.supportHours.note}`,
     ];
 
     const selectMenu = new StringSelectMenuBuilder({
       customId: "ticket/create",
-      placeholder: "Select a ticket category",
+      placeholder: "Choose a support category",
       minValues: 1,
       maxValues: 1,
       options: config.ticketSystem.categories,
     });
 
     const panelContainer = createContainer(
-      constants.colors.default,
+      constants.colors.discord,
       createMediaGallery(
         `attachment://${config.ticketSystem.panelBannerAttachmentName}`,
       ),
       Separator.Hidden,
       `## ${title}`,
-      description,
+      introLine,
+      ...scheduleLines,
       Separator.Default,
+      instructionLine,
       createRow(selectMenu),
       Separator.Default,
-      ...scheduleLines,
-      config.ticketSystem.panelFooter,
+      `*${config.ticketSystem.panelFooter}*`,
     );
 
     const sentMessage = await channel.send({

@@ -6,14 +6,14 @@ export const config = {
     panelBannerAttachmentName: "ticket-banner.jpg",
     panelTitle: "Support Center",
     panelDescription:
-      "Open a ticket only when you really need support.\n\n**Select the category below that best matches your request.**",
+      "Need help with the server or platform? Open a ticket and our team will assist you.\n**Select one category below to route your request.**",
     panelFooter:
       "-# Open tickets responsibly. Misuse of this system may result in moderation actions.",
     supportHours: {
       timeZoneLabel: "America/Sao_Paulo (Brasilia)",
       daysLabel: "Wednesday to Sunday",
-      windows: ["07:00AM-12:00PM", "07:30PM-12:10AM"],
-      note: "Tickets can still be opened outside support hours.",
+      windows: ["07:00-12:00", "19:30-00:10"],
+      note: "You can open tickets anytime. Responses are prioritized during support hours.",
     },
     ticketTypePriority: {
       security_report: 100,
@@ -31,31 +31,26 @@ export const config = {
         label: "Questions",
         value: "question",
         description: "General questions and guidance.",
-        emoji: "❓",
       },
       {
         label: "Billing",
         value: "billing",
         description: "Billing, payments, refunds, and invoices.",
-        emoji: "💳",
       },
       {
         label: "Bug Report",
         value: "bug_report",
         description: "Report bugs and unexpected behavior.",
-        emoji: "🐞",
       },
       {
         label: "Security",
         value: "security_report",
         description: "Security incidents and vulnerability reports.",
-        emoji: "🔐",
       },
       {
         label: "Other",
         value: "other",
         description: "Anything that does not fit the categories above.",
-        emoji: "🧩",
       },
     ],
   },
