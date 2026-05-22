@@ -2,6 +2,10 @@ export const config = {
   ticketSystem: {
     enabled: true,
     allowTicketCreationOutsideSupportHours: true,
+    supportRoleId: "",
+    supervisorRoleId: "",
+    createFlowExpiresInMs: 7 * 60 * 1000,
+    defaultThreadAutoArchiveDuration: 1440,
     panelBannerPath: "public/banner.jpg",
     panelBannerAttachmentName: "ticket-banner.jpg",
     panelTitle: "Support Center",

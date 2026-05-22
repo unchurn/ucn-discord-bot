@@ -1,18 +1,12 @@
 import {
-  createContainer,
-  createMediaGallery,
-  createRow,
-  Separator,
-} from "@magicyan/discord";
-import {
   ApplicationCommandOptionType,
   AttachmentBuilder,
   ChannelType,
   MessageFlags,
-  StringSelectMenuBuilder,
 } from "discord.js";
 import { config } from "#config";
 import { res } from "#functions";
+import { buildTicketPanelContainer } from "#functions";
 import { ticketCommand } from "./command.js";
 import { ensureTicketSystemEnabled } from "./guards.js";
 
@@ -24,7 +18,7 @@ ticketCommand.subcommand({
       name: "channel",
       description: "Channel where the ticket panel will be sent.",
       type: ApplicationCommandOptionType.Channel,
-      channelTypes: [ChannelType.GuildText, ChannelType.GuildAnnouncement],
+      channelTypes: [ChannelType.GuildText],
       required: true,
     },
   ],
@@ -32,18 +26,6 @@ ticketCommand.subcommand({
     if (!(await ensureTicketSystemEnabled(interaction))) return;
 
     const channel = interaction.options.getChannel("channel", true);
-    const title = config.ticketSystem.panelTitle;
-    const description = config.ticketSystem.panelDescription.replace(
-      /\\n/g,
-      "\n",
-    );
-    const descriptionLines = description
-      .split("\n")
-      .map((line) => line.trim())
-      .filter((line) => line.length > 0);
-    const introLine = descriptionLines[0] ?? "";
-    const instructionLine = descriptionLines[1] ?? "";
-
     if (!channel.isTextBased()) {
       await interaction.editReply(
         res.danger("The selected channel does not support messages."),
@@ -51,35 +33,9 @@ ticketCommand.subcommand({
       return;
     }
 
-    const scheduleLines = [
-      `> **Support hours (${config.ticketSystem.supportHours.timeZoneLabel})**`,
-      `> ${config.ticketSystem.supportHours.daysLabel} | ${config.ticketSystem.supportHours.windows.join(" and ")}`,
-      `> ${config.ticketSystem.supportHours.note}`,
-    ];
-
-    const selectMenu = new StringSelectMenuBuilder({
-      customId: "ticket/create",
-      placeholder: "Choose a support category",
-      minValues: 1,
-      maxValues: 1,
-      options: config.ticketSystem.categories,
+    const panelContainer = buildTicketPanelContainer({
+      bannerSource: `attachment://${config.ticketSystem.panelBannerAttachmentName}`,
     });
-
-    const panelContainer = createContainer(
-      constants.colors.discord,
-      createMediaGallery(
-        `attachment://${config.ticketSystem.panelBannerAttachmentName}`,
-      ),
-      Separator.Hidden,
-      `## ${title}`,
-      introLine,
-      ...scheduleLines,
-      Separator.Default,
-      instructionLine,
-      createRow(selectMenu),
-      Separator.Default,
-      `*${config.ticketSystem.panelFooter}*`,
-    );
 
     const sentMessage = await channel.send({
       files: [
